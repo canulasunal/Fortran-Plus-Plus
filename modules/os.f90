@@ -3,6 +3,14 @@ module os
 
     contains
 
+    function argv(num)
+        integer :: num
+        character(len=232) :: argv
+
+        call get_command_argument(num, argv)
+    
+    end function argv
+
     subroutine writefile(filename, contents)
         character(len=*) :: filename, contents
 
