@@ -1,5 +1,7 @@
 import strutils
 
+import evalutils
+
 const os_module = staticRead("../modules/os.f90")
 const math_module = staticRead("../modules/math.f90")
 const strutils_module = staticRead("../modules/strutils.f90")
@@ -37,7 +39,16 @@ proc compile*(content: string): string =
         elif item.startsWith("use "):
             discard 1
         else:
-            compiled.add(item)
+            try:
+                var ritem = $(evaluate(item.split("=")[len(item.split("="))-1].strip()))
+                
+                if ritem.endsWith(".0"):
+                    ritem = ritem.replace(".0", "")
+
+                compiled.add(item.replace(item.split("=")[len(item.split("="))-1].strip(), ritem))
+
+            except:
+                compiled.add(item)
     
     compiled.add("contains")
 
