@@ -1,6 +1,7 @@
 import strutils
 
 const os_module = staticRead("../modules/os.f90")
+const math_module = staticRead("../modules/math.f90")
 const strutils_module = staticRead("../modules/strutils.f90")
 
 proc compile*(content: string): string =
@@ -16,6 +17,10 @@ proc compile*(content: string): string =
 
         elif item == "use strutils":
             for x in strutils_module.split("\n"):
+                compiled.add(x)
+
+        elif item == "use math":
+            for x in math_module.split("\n"):
                 compiled.add(x)
 
     compiled.add("program main")
