@@ -35,7 +35,26 @@ proc compile*(content: string): string =
 
     compiled.add("implicit none")
 
-    for item in document:
+    for line in document:
+
+        var item = line
+
+        if item.startsWith("print *, "):
+            item = item.replace("print *, ", "write(*, '(A)') ")
+
+            try:
+                var itemz = item.split("write(*, '(A)') ")[len(item.split("write(*, '(A)') "))-1].strip()
+                var itemans = $(evaluate(itemz))
+
+                if itemans.endsWith(".0"):
+                    itemans = itemans.replace(".0", "")
+
+                item = item.replace(itemz, itemans)
+            except:
+                discard 1
+        
+        ### End formatting
+
         if item.startsWith("#compiler#tag#infunction# "):
             functions.add(item.replace("#compiler#tag#infunction# ", ""))
 
@@ -44,7 +63,7 @@ proc compile*(content: string): string =
                 discard 1
             else:
                 compiled.add(item)
-
+        
         else:
             try:
                 var ritem = $(evaluate(item.split("=")[len(item.split("="))-1].strip()))
