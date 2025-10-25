@@ -12,6 +12,8 @@ proc compile*(content: string): string =
     var compiled: seq[string] = @[]
     var functions: seq[string] = @[]
 
+    var stdlib_modules: seq[string] = @[]
+
     for item in document:
         if item == "use os":
             for x in os_module.split("\n"):
@@ -36,8 +38,13 @@ proc compile*(content: string): string =
     for item in document:
         if item.startsWith("#compiler#tag#infunction# "):
             functions.add(item.replace("#compiler#tag#infunction# ", ""))
+
         elif item.startsWith("use "):
-            discard 1
+            if item.replace("use ", "").strip() in stdlib_modules:
+                discard 1
+            else:
+                compiled.add(item)
+
         else:
             try:
                 var ritem = $(evaluate(item.split("=")[len(item.split("="))-1].strip()))
