@@ -35,21 +35,31 @@ proc compile*(content: string): string =
 
     compiled.add("implicit none")
 
+    compiled.add("integer, parameter :: int64 = selected_int_kind(18)")
+
     for line in document:
 
         var item = line
 
         if item.startsWith("print *, "):
-            item = item.replace("print *, ", "write(*, '(A)') ")
+
+            var op = "print *, "
 
             try:
-                var itemz = item.split("write(*, '(A)') ")[len(item.split("write(*, '(A)') "))-1].strip()
+                discard evaluate(item.replace("print *, ").strip())
+                op = "print *, "
+            except:
+                item = item.replace("print *, ", "write(*, '(A)') ")
+                op = "write(*, '(A)') "
+
+            try:
+                var itemz = item.split(op)[len(item.split(op))-1].strip()
                 var itemans = $(evaluate(itemz))
 
                 if itemans.endsWith(".0"):
                     itemans = itemans.replace(".0", "")
 
-                item = item.replace(itemz, itemans)
+                item = item.replace(itemz, itemans)&"_int64"
             except:
                 discard 1
         
