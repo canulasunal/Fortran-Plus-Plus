@@ -10,6 +10,8 @@ proc parse*(content: string): string =
 
         if line.startsWith("function "):
             function = 1
+        if line.startsWith("subroutine "):
+            function = 1
         
         if function == 1:
             compiled.add("#compiler#tag#infunction# " & line)
@@ -17,6 +19,9 @@ proc parse*(content: string): string =
             compiled.add(line)
 
         if line.startsWith("end function "):
+            function = 0
+        
+        if line.startsWith("end subroutine "):
             function = 0
 
     return compiled.join("\n")

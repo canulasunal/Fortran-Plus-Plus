@@ -41,7 +41,7 @@ proc compile*(content: string): string =
 
         var item = line
 
-        if item.startsWith("print *, "):
+        if item.replace("#compiler#tag#infunction# ", "").startsWith("print *, "):
 
             var op = "print *, "
 
