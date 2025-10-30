@@ -10,5 +10,5 @@ Fppc is the official implementation of the Fortran++ add on to Fortran 90. Fortr
 ## Unsupported Backends
 These backends are not supported by the Fortran++ compiler due to their proprietary and non compatible nature.
 
-1. Intel Fortran
-2. GCC-Fortran versions below Fortran 90 (e.g. F77)
+1. Intel Fortran.
+2. GCC-Fortran versions below Fortran 90 (e.g. F77).
