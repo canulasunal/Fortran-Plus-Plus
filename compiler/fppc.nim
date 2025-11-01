@@ -27,7 +27,16 @@ else:
 
         writeFile(paramStr(1).replace(".fpp", ".f90"), compile(document))
 
-        discard execShellCmd("gfortran " & paramStr(1).replace(".fpp", ".f90") & " -o " & paramStr(1).replace(".fpp", ""))
+        var command: seq[string] = @["gfortran"]
+        command.add(paramStr(1).replace(".fpp", ".f90"))
+        
+        for item in toremove:
+            command.add(item.replace(".mod", "")&".o")
+
+        command.add("-o")
+        command.add(paramStr(1).replace(".fpp", ""))
+
+        discard execShellCmd(command.join(" "))
         removeFile(paramStr(1).replace(".fpp", ".f90"))
 
         for item in toremove:

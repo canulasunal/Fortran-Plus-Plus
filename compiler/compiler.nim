@@ -69,10 +69,7 @@ proc compile*(content: string): string =
             functions.add(item.replace("#compiler#tag#infunction# ", ""))
 
         elif item.startsWith("use "):
-            if item.replace("use ", "").strip() in stdlib_modules:
-                discard 1
-            else:
-                compiled.add(item)
+            discard 1
         
         else:
             try:
