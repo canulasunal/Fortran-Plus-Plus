@@ -4,6 +4,7 @@ import os
 import version
 import parser
 import compiler
+import libpackages
 
 if paramCount() < 1:
     quit()
@@ -14,6 +15,12 @@ if command == "--version" or command == "-V":
     echo "Fortran++ Compiler Version " & version.version()
     echo "Copyright (C) 2025 canulasunal"
     echo "------------------------------"
+
+elif command == "--install":
+    install(paramStr(2))
+
+elif command == "--load":
+    load(paramStr(2))
 
 else:
     if paramStr(1).endsWith(".fpp"):
