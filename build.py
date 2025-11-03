@@ -18,7 +18,7 @@ if osx == "Windows":
     os.system("windres build.rc -O coff -o build.res")
     shutil.move("build.res", "compiler")
     os.chdir("compiler")
-    os.system('nim c -d:release --passL:"build.res" fppc.nim')
+    os.system('nim c -d:release -d:ssl --passL:"build.res" fppc.nim')
     os.remove("build.res")
     shutil.move("fppc.exe", "..")
     os.chdir("..")
@@ -27,7 +27,7 @@ if osx == "Windows":
 
 if osx == "Linux" or osx == "Darwin":
     os.chdir("compiler")
-    os.system("nim c fppc.nim")
+    os.system("nim c -d:ssl fppc.nim")
     shutil.move("fppc", "..")
     os.chdir("..")
     os.mkdir("bin")
@@ -39,7 +39,7 @@ else:
 
     if choice.lower().strip() == "y":
         os.chdir("compiler")
-        os.system("nim c fppc.nim")
+        os.system("nim c -d:ssl fppc.nim")
         shutil.move("fppc", "..")
         os.chdir("..")
         os.mkdir("bin")
